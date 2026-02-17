@@ -1,0 +1,19 @@
+name: snyk-code
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  snyk-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Snyk CLI
+        run: npm i -g snyk
+
+      - name: Snyk Code test (fail on High+)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk code test --severity-threshold=high
