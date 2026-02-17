@@ -17,3 +17,10 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk code test --severity-threshold=high --debug --log-level=trace &> tracedebug.log
+
+      - name: Upload trace log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snyk-trace-log
+          path: tracedebug.log
